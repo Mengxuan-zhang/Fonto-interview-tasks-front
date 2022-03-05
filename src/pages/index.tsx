@@ -3,7 +3,7 @@ import { history } from 'umi';
 
 export default function IndexPage() {
   const onClick = () => {
-    history.push(`/users`);
+    history.push(`/property`);
   };
   return (
     <div>
