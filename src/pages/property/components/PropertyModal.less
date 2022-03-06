@@ -1,3 +1,6 @@
+@import '~antd/lib/style/themes/default.less';
+@import '~@/utils/utils.less';
+
 :global {
   .ant-modal-content {
     max-width: 600px;
@@ -13,4 +16,13 @@
   .ant-form-horizontal h2 {
     margin-bottom: 25px;
   }
+  .ant-modal {
+    top: 150px;
+  }
+}
+
+.input {
+  width: 50%;
+  .responsive(@screen-md ;{width: 80%});
+  .responsive(@screen-sm ;{width: 100%});
 }
