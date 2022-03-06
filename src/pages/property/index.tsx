@@ -6,15 +6,12 @@ import React, {
   useRef,
   FC,
 } from 'react';
-import { Table, Tag, Space, Input, Popconfirm, Button } from 'antd';
-import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
+import { Table, Button } from 'antd';
 import { connect, Dispatch, Loading, PropertyState } from 'umi';
 import { ISinglePropertyType, FromValues } from '@/interface/property';
 import { ColumnsType } from 'antd/es/table';
-
+import PropertyModel from './components/PropertyModal';
 import styles from './index.less';
-
 interface PropertyPageProps {
   property: PropertyState;
   dispatch: Dispatch;
@@ -27,83 +24,109 @@ const PropertyListPage: FC<PropertyPageProps> = ({
   propertyDataLoading,
 }) => {
   const [totalValuation, setTotalValuation] = useState(0);
+  const [propertyList, setPropertyList] = useState<ISinglePropertyType[]>([]);
+  const [modalVisible, setModalVisible] = useState<true | false>(false);
+
+  const options = {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+  };
+
+  function changeMoneyFormat(num: number) {
+    return num.toLocaleString('en-IN', options);
+  }
+
   const columns: ColumnsType<ISinglePropertyType> = [
     {
       title: 'ID',
       dataIndex: 'id',
-      // filters: [
-      //   {
-      //     text: 'Joe',
-      //     value: 'Joe',
-      //   },
-      //   {
-      //     text: 'Category 1',
-      //     value: 'Category 1',
-      //     // children: [
-      //     //   {
-      //     //     text: 'Yellow',
-      //     //     value: 'Yellow',
-      //     //   },
-      //     //   {
-      //     //     text: 'Pink',
-      //     //     value: 'Pink',
-      //     //   },
-      //     // ],
-      //   },
-      //   {
-      //     text: 'Category 2',
-      //     value: 'Category 2',
-      //     // children: [
-      //     //   {
-      //     //     text: 'Green',
-      //     //     value: 'Green',
-      //     //   },
-      //     //   {
-      //     //     text: 'Black',
-      //     //     value: 'Black',
-      //     //   },
-      //     // ],
-      //   },
-      // ],
-      // filterMode: 'tree',
-      // filterSearch: true,
-      // onFilter: (value, record) => record.name.includes(value),
       width: '10%',
       defaultSortOrder: 'ascend',
       sortDirections: ['ascend', 'descend', 'ascend'],
       sorter: (a: { id: number }, b: { id: number }) => a.id - b.id,
     },
     {
+      title: 'Address',
+      dataIndex: 'address',
+      filterSearch: true,
+      width: '60%',
+    },
+    {
       title: 'Valuation',
       dataIndex: 'valuation',
       sorter: (a: { valuation: number }, b: { valuation: number }) =>
         a.valuation - b.valuation,
-      width: '40%',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      filterSearch: true,
-      width: '40%',
+      width: '30%',
+      align: 'right',
+      render: (text) => <p>{changeMoneyFormat(text)}</p>,
     },
   ];
 
-  function propertyListFilter(properties: ISinglePropertyType[]) {
-    console.log(properties);
-    return properties.length > 0
-      ? properties.filter((property) => property.hidden === false)
-      : [];
-  }
+  useEffect(() => {
+    if (property.properties.length > 0) {
+      const list: ISinglePropertyType[] = [];
+      let total = 0;
+      property.properties.map((item) => {
+        if (item.hidden === false) {
+          list.push(item);
+          total += item.valuation;
+        }
+      });
+      setPropertyList(list);
+      setTotalValuation(total);
+    }
+  }, [propertyDataLoading, property]);
+
+  const ModalVisibleCloseHandler = () => {
+    setModalVisible(false);
+  };
+
+  const ModalVisibleOpenHandler = () => {
+    setModalVisible(true);
+  };
+
+  const onFinish = useCallback(async (values: FromValues) => {
+    setModalVisible(false);
+    await dispatch({
+      type: 'property/postProperty',
+      payload: { values },
+    });
+    await dispatch({
+      type: 'property/getAllList',
+    });
+  }, []);
 
   return (
     <div className={styles['list-table']}>
-      <Table
-        columns={columns}
-        dataSource={propertyListFilter(property.properties)}
-        rowKey="id"
-        loading={propertyDataLoading}
+      <h1>Property</h1>
+      <div className={styles['button-right']}>
+        <Button type="primary" onClick={ModalVisibleOpenHandler}>
+          Add Property
+        </Button>
+      </div>
+      <PropertyModel
+        visible={modalVisible}
+        ModalVisibleCloseHandler={ModalVisibleCloseHandler}
+        onFinish={onFinish}
       />
-      <p></p>
+      <div>
+        <Table
+          columns={columns}
+          dataSource={propertyList}
+          rowKey="id"
+          bordered
+          pagination={false}
+          loading={propertyDataLoading}
+        />
+        {!propertyDataLoading && (
+          <div>
+            <p className={styles['total-valuation']}>
+              {!propertyDataLoading && changeMoneyFormat(totalValuation)}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

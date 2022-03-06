@@ -6,5 +6,6 @@ export interface ISinglePropertyType {
 }
 
 export interface FromValues {
-  [name: string]: any;
+  address: string;
+  valuation: number;
 }

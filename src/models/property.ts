@@ -1,5 +1,5 @@
 import { Effect, Reducer, Subscription } from 'umi';
-import { fetchAllPropertyList } from '../service/property';
+import { fetchAllPropertyList, postProperty } from '../service/property';
 import { message } from 'antd';
 import { ISinglePropertyType } from '@/interface/Property';
 
@@ -14,9 +14,7 @@ interface PropertyModelType {
   };
   effects: {
     getAllList: Effect;
-    // edit: Effect;
-    // delete: Effect;
-    // add: Effect;
+    postProperty: Effect;
   };
   subscriptions: {
     setup: Subscription;
@@ -43,6 +41,17 @@ const PropertyModel: PropertyModelType = {
           type: 'propertyList',
           payload: data,
         });
+      } else {
+        message.error('Get data failed');
+      }
+    },
+    *postProperty({ payload }, { put, call }) {
+      const { values } = payload;
+      console.log(values);
+      const response = yield call(postProperty, { values });
+      if (response) {
+        console.log(response);
+        message.success('add property successfully');
       } else {
         message.error('Get data failed');
       }

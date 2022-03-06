@@ -17,6 +17,7 @@ const errorHandler = function (error: any) {
 const extendRequest = extend({
   prefix: `${baseURL}`,
   timeout: 30000,
+  responseType: 'json',
   errorHandler,
   headers: {
     'Content-Type': 'multipart/form-data',
