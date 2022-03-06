@@ -2,7 +2,25 @@
   width: 850px;
   margin: 0 auto;
   margin-top: 5%;
-  border: 1px solid #ccc;
-  border-radius: 3px;
   padding: 10px;
+  h1 {
+    margin-bottom: 2%;
+  }
+  .total-valuation {
+    text-align: right;
+    margin-right: 8px;
+    &::before {
+      content: 'Total';
+      font-size: 1.1em;
+      font-weight: 600;
+      padding-right: 10px;
+    }
+  }
+  .button-right {
+    display: flex;
+    justify-content: right;
+    border-radius: 5%;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+  }
 }
