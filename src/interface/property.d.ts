@@ -3,9 +3,6 @@ export interface ISinglePropertyType {
   address: string;
   valuation: number;
   hidden: boolean;
-  create_time?: string;
-  update_time?: string;
-  // status: number,
 }
 
 export interface FromValues {
