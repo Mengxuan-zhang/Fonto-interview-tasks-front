@@ -1,0 +1,7 @@
+//mixin for responsive
+// ------------------------
+.responsive(@maxWidth; @rules) {
+  @media screen and (max-width: @maxWidth) {
+    @rules();
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useState, memo, useEffect, FC } from 'react';
-import { Modal, Button, Form, Input, message, InputNumber } from 'antd';
+import { Modal, Form, Input, InputNumber } from 'antd';
 import { ISinglePropertyType, FromValues } from '@/interface/Property';
 import styles from './PropertyModal.less';
 
@@ -15,11 +15,11 @@ const PropertyModal: FC<PropertyModal> = (props) => {
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
-      sm: { span: 5 },
+      sm: { span: 6 },
     },
     wrapperCol: {
       xs: { span: 24 },
-      sm: { span: 15 },
+      sm: { span: 16 },
     },
   };
 
@@ -43,18 +43,11 @@ const PropertyModal: FC<PropertyModal> = (props) => {
         onOk={submitHandler}
         onCancel={cancelHandler}
       >
-        <Form
-          name="basic"
-          form={form}
-          onFinish={onFinish}
-          //   onFinishFailed={onFinishFailed}
-          {...formItemLayout}
-        >
+        <Form name="basic" form={form} onFinish={onFinish} {...formItemLayout}>
           <h2>Enter property details</h2>
           <Form.Item
             label="Address"
             name="address"
-            // add regex
             rules={[
               {
                 required: true,
@@ -75,14 +68,12 @@ const PropertyModal: FC<PropertyModal> = (props) => {
                 required: true,
                 type: 'number',
                 message: 'Please input your valuation!',
-                // validator: checkPrice,
-                //^[0-9]*\.?[0-9]+$
               },
             ]}
           >
             <InputNumber
               min={0}
-              style={{ width: '50%' }}
+              className={styles.input}
               formatter={(value) =>
                 `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
               }

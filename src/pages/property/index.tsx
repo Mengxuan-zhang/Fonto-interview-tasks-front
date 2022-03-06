@@ -67,7 +67,7 @@ const PropertyListPage: FC<PropertyPageProps> = ({
     if (property.properties.length > 0) {
       const list: ISinglePropertyType[] = [];
       let total = 0;
-      property.properties.map((item) => {
+      property.properties.map((item: ISinglePropertyType) => {
         if (item.hidden === false) {
           list.push(item);
           total += item.valuation;
@@ -99,7 +99,7 @@ const PropertyListPage: FC<PropertyPageProps> = ({
 
   return (
     <div className={styles['list-table']}>
-      <h1>Property</h1>
+      <h1>Properties</h1>
       <div className={styles['button-right']}>
         <Button type="primary" onClick={ModalVisibleOpenHandler}>
           Add Property
