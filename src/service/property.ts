@@ -6,7 +6,7 @@ export async function fetchAllPropertyList() {
     method: 'get',
   })
     .then(function (response) {
-      console.log(response);
+      // console.log(response);
       return response;
     })
     .catch(function (error) {
@@ -21,7 +21,7 @@ export async function postProperty({ values }: { values: FromValues }) {
     data: values,
   })
     .then(function (response) {
-      console.log(response);
+      // console.log(response);
       return response;
     })
     .catch(function (error) {

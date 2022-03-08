@@ -9,6 +9,7 @@ interface PropertyModal {
   onFinish: (values: FromValues) => void;
 }
 const PropertyModal: FC<PropertyModal> = (props) => {
+  console.log(1);
   const { visible, ModalVisibleCloseHandler, onFinish } = props;
   const [form] = Form.useForm();
 
@@ -85,4 +86,4 @@ const PropertyModal: FC<PropertyModal> = (props) => {
   );
 };
 
-export default PropertyModal;
+export default memo(PropertyModal);
