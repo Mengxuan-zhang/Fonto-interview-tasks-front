@@ -7,8 +7,12 @@ import React, {
   FC,
 } from 'react';
 import { Table, Button } from 'antd';
-import { connect, Dispatch, Loading, PropertyState } from 'umi';
-import { ISinglePropertyType, FromValues } from '@/interface/property';
+import { connect, Dispatch, Loading } from 'umi';
+import {
+  ISinglePropertyType,
+  FromValues,
+  PropertyState,
+} from '@/interface/property';
 import { ColumnsType } from 'antd/es/table';
 import PropertyModel from './components/PropertyModal';
 import styles from './index.less';
@@ -78,24 +82,33 @@ const PropertyListPage: FC<PropertyPageProps> = ({
     }
   }, [propertyDataLoading, property]);
 
-  const ModalVisibleCloseHandler = () => {
+  const ModalVisibleCloseHandler = useCallback(() => {
     setModalVisible(false);
-  };
+  }, []);
 
   const ModalVisibleOpenHandler = () => {
     setModalVisible(true);
   };
 
   const onFinish = useCallback(async (values: FromValues) => {
+    const postData = async () => {
+      try {
+        await dispatch({
+          type: 'property/postProperty',
+          payload: { values },
+        });
+        await dispatch({
+          type: 'property/getAllList',
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
     setModalVisible(false);
-    await dispatch({
-      type: 'property/postProperty',
-      payload: { values },
-    });
-    await dispatch({
-      type: 'property/getAllList',
-    });
+    postData();
   }, []);
+
+  console.log(2);
 
   return (
     <div className={styles['list-table']}>

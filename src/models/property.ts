@@ -1,25 +1,7 @@
 import { Effect, Reducer, Subscription } from 'umi';
 import { fetchAllPropertyList, postProperty } from '../service/property';
 import { message } from 'antd';
-import { ISinglePropertyType } from '@/interface/Property';
-
-export interface PropertyState {
-  properties: ISinglePropertyType[];
-}
-interface PropertyModelType {
-  namespace: 'property';
-  state: PropertyState;
-  reducers: {
-    propertyList: Reducer<PropertyState>;
-  };
-  effects: {
-    getAllList: Effect;
-    postProperty: Effect;
-  };
-  subscriptions: {
-    setup: Subscription;
-  };
-}
+import { PropertyModelType } from '@/interface/Property';
 
 const PropertyModel: PropertyModelType = {
   namespace: 'property',
@@ -35,7 +17,7 @@ const PropertyModel: PropertyModelType = {
   effects: {
     *getAllList(action, { put, call }) {
       const data = yield call(fetchAllPropertyList);
-      console.log(data);
+      // console.log(data);
       if (data) {
         yield put({
           type: 'propertyList',
@@ -47,7 +29,7 @@ const PropertyModel: PropertyModelType = {
     },
     *postProperty({ payload }, { put, call }) {
       const { values } = payload;
-      console.log(values);
+      // console.log(values);
       const response = yield call(postProperty, { values });
       if (response) {
         console.log(response);
