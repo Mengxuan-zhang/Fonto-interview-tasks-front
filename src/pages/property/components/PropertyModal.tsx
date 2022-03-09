@@ -1,7 +1,7 @@
 import React, { useState, memo, useEffect, FC } from 'react';
 import { Modal, Form, Input, InputNumber } from 'antd';
 import { ISinglePropertyType, FromValues } from '@/interface/Property';
-import styles from './PropertyModal.less';
+import './PropertyModal.less';
 
 interface PropertyModal {
   visible: true | false;
@@ -9,18 +9,17 @@ interface PropertyModal {
   onFinish: (values: FromValues) => void;
 }
 const PropertyModal: FC<PropertyModal> = (props) => {
-  console.log(1);
   const { visible, ModalVisibleCloseHandler, onFinish } = props;
   const [form] = Form.useForm();
 
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
-      sm: { span: 6 },
+      sm: { span: 5 },
     },
     wrapperCol: {
       xs: { span: 24 },
-      sm: { span: 16 },
+      sm: { span: 17 },
     },
   };
 
@@ -37,15 +36,21 @@ const PropertyModal: FC<PropertyModal> = (props) => {
     <div>
       <Modal
         visible={visible}
-        bodyStyle={styles.modal}
+        className="modal"
         okText="Accept"
         cancelText="Cancel"
         closable={false}
         onOk={submitHandler}
         onCancel={cancelHandler}
       >
-        <Form name="basic" form={form} onFinish={onFinish} {...formItemLayout}>
-          <h2>Enter property details</h2>
+        <Form
+          name="basic"
+          data-testid="form"
+          form={form}
+          onFinish={onFinish}
+          {...formItemLayout}
+        >
+          <h2 className="text">Enter property details</h2>
           <Form.Item
             label="Address"
             name="address"
@@ -57,13 +62,12 @@ const PropertyModal: FC<PropertyModal> = (props) => {
               },
             ]}
           >
-            <Input />
+            <Input data-testid="address" />
           </Form.Item>
 
           <Form.Item
             label="Valuation"
             name="valuation"
-            // add regex
             rules={[
               {
                 required: true,
@@ -74,7 +78,8 @@ const PropertyModal: FC<PropertyModal> = (props) => {
           >
             <InputNumber
               min={0}
-              className={styles.input}
+              data-testid="valuation"
+              className="input"
               formatter={(value) =>
                 `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
               }
