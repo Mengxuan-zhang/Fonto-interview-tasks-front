@@ -32,7 +32,7 @@ $ npm start    # visit http://localhost:8000
 ```
 ### Run test 
 ```bash
-npm test 
+$ npm test 
 ```
 
 ## Site Structure 
