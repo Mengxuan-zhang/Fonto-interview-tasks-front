@@ -8,6 +8,7 @@ interface PropertyModal {
   ModalVisibleCloseHandler: () => void;
   onFinish: (values: FromValues) => void;
 }
+
 const PropertyModal: FC<PropertyModal> = (props) => {
   const { visible, ModalVisibleCloseHandler, onFinish } = props;
   const [form] = Form.useForm();
@@ -64,7 +65,6 @@ const PropertyModal: FC<PropertyModal> = (props) => {
           >
             <Input data-testid="address" />
           </Form.Item>
-
           <Form.Item
             label="Valuation"
             name="valuation"
