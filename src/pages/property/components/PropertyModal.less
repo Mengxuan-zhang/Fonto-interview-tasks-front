@@ -1,24 +1,25 @@
 @import '~antd/lib/style/themes/default.less';
 @import '~@/utils/utils.less';
 
-:global {
-  .ant-modal-content {
-    max-width: 600px;
-    .ant-modal-footer {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-    }
-  }
-  .ant-form-item-label {
-    text-align: left;
-  }
-  .ant-form-horizontal h2 {
-    margin-bottom: 25px;
+.modal {
+  .ant-modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
   }
   .ant-modal {
     top: 150px;
   }
+  .ant-modal-content {
+    max-width: 600px;
+  }
+  .ant-form-item-label {
+    text-align: left;
+  }
+}
+
+.text {
+  margin-bottom: 50px;
 }
 
 .input {

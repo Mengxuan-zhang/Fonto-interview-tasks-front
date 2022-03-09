@@ -15,7 +15,8 @@ import {
 } from '@/interface/property';
 import { ColumnsType } from 'antd/es/table';
 import PropertyModel from './components/PropertyModal';
-import styles from './index.less';
+import changeMoneyFormat from '@/utils/changeMoneyFormat';
+import './index.less';
 interface PropertyPageProps {
   property: PropertyState;
   dispatch: Dispatch;
@@ -30,16 +31,6 @@ const PropertyListPage: FC<PropertyPageProps> = ({
   const [totalValuation, setTotalValuation] = useState(0);
   const [propertyList, setPropertyList] = useState<ISinglePropertyType[]>([]);
   const [modalVisible, setModalVisible] = useState<true | false>(false);
-
-  const options = {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-  };
-
-  function changeMoneyFormat(num: number) {
-    return num.toLocaleString('en-IN', options);
-  }
 
   const columns: ColumnsType<ISinglePropertyType> = [
     {
@@ -108,12 +99,10 @@ const PropertyListPage: FC<PropertyPageProps> = ({
     postData();
   }, []);
 
-  console.log(2);
-
   return (
-    <div className={styles['list-table']}>
+    <div className="list-table">
       <h1>Properties</h1>
-      <div className={styles['button-right']}>
+      <div className="button-right">
         <Button type="primary" onClick={ModalVisibleOpenHandler}>
           Add Property
         </Button>
@@ -134,7 +123,7 @@ const PropertyListPage: FC<PropertyPageProps> = ({
         />
         {!propertyDataLoading && (
           <div>
-            <p className={styles['total-valuation']}>
+            <p className={'total-valuation'}>
               {!propertyDataLoading && changeMoneyFormat(totalValuation)}
             </p>
           </div>
