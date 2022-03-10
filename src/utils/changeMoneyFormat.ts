@@ -1,4 +1,5 @@
 export default function changeMoneyFormat(num: number) {
+  // example: 789000 => $7,89,000
   const options = {
     style: 'currency',
     currency: 'USD',

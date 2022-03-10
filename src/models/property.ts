@@ -17,7 +17,6 @@ const PropertyModel: PropertyModelType = {
   effects: {
     *getAllList(action, { put, call }) {
       const data = yield call(fetchAllPropertyList);
-      // console.log(data);
       if (data) {
         yield put({
           type: 'propertyList',
@@ -29,7 +28,6 @@ const PropertyModel: PropertyModelType = {
     },
     *postProperty({ payload }, { put, call }) {
       const { values } = payload;
-      // console.log(values);
       const response = yield call(postProperty, { values });
       if (response) {
         console.log(response);
